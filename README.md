@@ -1,15 +1,29 @@
-scala-starter
+akka-caravan
 =============
 
-scala starter template for when working on new projects
-Structure taken from: http://www.bks2.com/blog/2013/02/23/zero-to-a-scala-sbt-project/
+This project aims to use the Akka ActorSystem to read messages from Oracle ActiveQueue and write to Apache Kafka in a asynchronous, highly available, fault tolerant system. The project could easily be extended to use Apache Camel to send messages from Oracle ActiveQueue to any other system Camel integrates with.
 
-sbt makes life much easier in a scala project. I suggest using Sublime Text for smaller projects, IntelliJ for larger (just for intellisense). The website listed above has instructions on setting up IntelliJ.
+Use a configuration file to start:
 
-I also added in a dependency for sbt one-jar run command. This packages everything into an executable jar file to run anywhere. The run script calls the command line for specific memory configs, but you can change that.
-
-As long as there is a singleton class under src/main/scala, sbt will find it. All other classes can be added, but this is the entry point. 
-
-If you change the project name, reflect the changes in the run script and build.sbt
-
-Example usage: sbt one-jar && ./run.sh
+```javascript
+	{
+		"oracle" : {
+			"jdbc_url" : "",
+			"connection_pool_size" : 1,
+			"num_consumers" : 5,
+			"batch_size" : 100
+		},
+		"kafka" : {
+			"broker_list" : "",
+			"num_producers" : 20,
+			"topic" : "my_feed"
+		},
+		"logging" : {
+			"log_level" : "DEBUG"
+			"log_file_location" : ""
+		},
+		"akka" : {
+		    ... any overrides to the akka system
+		}
+	}
+```
